@@ -1,5 +1,5 @@
 # pyrefly: ignore [missing-import]
-from fastapi import FastAPI
+from fastapi import FastAPI, Path
 import json
 
 app= FastAPI()
@@ -22,12 +22,10 @@ def view():
     data = load_data()
     return data
 
-@app.get('/view/{id}')
-def view_by_id(id: int):
+@app.get('/patients/{id}')
+def view_by_id(id: str = Path(...,description="Enter the ID of the patient you want to view",example="P001")):
     data = load_data()
     for patient in data:
         if patient['id'] == id:
             return patient
     return {"message": "Patient not found"}
-
-
